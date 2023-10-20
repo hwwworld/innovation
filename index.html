@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Voice-to-Finnish Voice</title>
+    <title>CV Generator</title>
 </head>
 <body>
-    <h1>Voice-to-Finnish Voice</h1>
-    <button id="startRecording">Start Recording</button>
-    <button id="stopRecording" disabled>Stop Recording</button>
-    <p id="output">Converted Finnish Text Will Appear Here</p>
-    <button id="speakButton" disabled>Speak in Finnish</button>
+    <h1>CV Generator</h1>
+    <form id="cvForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required><br><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" required><br><br>
+        
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" required><br><br>
+        
+        <label for="address">Address:</label>
+        <input type="text" id="address" required><br><br>
+        
+        <label for="summary">Summary:</label>
+        <textarea id="summary" rows="4" required></textarea><br><br>
+        
+        <label for="experience">Experience:</label>
+        <textarea id="experience" rows="4" required></textarea><br><br>
+        
+        <label for="education">Education:</label>
+        <textarea id="education" rows="4" required></textarea><br><br>
+        
+        <button type="submit">Generate CV</button>
+    </form>
+    <div id="cvOutput"></div>
     <script src="script.js"></script>
 </body>
 </html>

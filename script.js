@@ -1,63 +1,30 @@
-if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    const startRecording = document.getElementById('startRecording');
-    const stopRecording = document.getElementById('stopRecording');
-    const output = document.getElementById('output');
-    const speakButton = document.getElementById('speakButton');
-    
-    recognition.continuous = true; // Continuous listening
-    recognition.interimResults = true; // Capture interim results
+const cvForm = document.getElementById('cvForm');
+const cvOutput = document.getElementById('cvOutput');
 
-    let currentText = '';
-    let recognitionActive = false;
+cvForm.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    recognition.onresult = function(event) {
-        const interimTranscript = event.results[event.results.length - 1][0].transcript;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const summary = document.getElementById('summary').value;
+    const experience = document.getElementById('experience').value;
+    const education = document.getElementById('education').value;
 
-        // Update the displayed text
-        currentText += interimTranscript;
-        output.textContent = currentText;
-    };
+    const cvTemplate = `
+        <h2>${firstName} ${lastName}</h2>
+        <p>Email: ${email}</p>
+        <p>Phone: ${phone}</p>
+        <p>Address: ${address}</p>
+        <h3>Summary</h3>
+        <p>${summary}</p>
+        <h3>Experience</h3>
+        <p>${experience}</p>
+        <h3>Education</h3>
+        <p>${education}</p>
+    `;
 
-    recognition.onstart = function() {
-        recognitionActive = true;
-        startRecording.textContent = 'Recording...';
-        stopRecording.disabled = false;
-    };
-
-    recognition.onend = function() {
-        recognitionActive = false;
-        startRecording.textContent = 'Start Recording';
-        stopRecording.disabled = true;
-    };
-
-    startRecording.addEventListener('click', function() {
-        currentText = ''; // Clear previous text
-        output.textContent = '';
-        recognition.start();
-    });
-
-    stopRecording.addEventListener('click', function() {
-        recognition.stop();
-    });
-
-    speakButton.addEventListener('click', function() {
-        if (recognitionActive) {
-            speakFinnish(output.textContent);
-        }
-    });
-} else {
-    output.textContent = 'Speech recognition is not supported in this browser.';
-}
-
-function speakFinnish(text) {
-    // Use a text-to-speech API or service to produce speech output in Finnish.
-    // This code will depend on the specific API or service you choose to use.
-    // For example, using the Web Speech API for speech synthesis:
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fi-FI'; // Set the language to Finnish
-    synth.speak(utterance);
-    // Other APIs or services may have different methods and settings.
-}
+    cvOutput.innerHTML = cvTemplate;
+});
