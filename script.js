@@ -9,28 +9,13 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     recognition.interimResults = true; // Capture interim results
 
     let currentText = '';
-    let isPaused = true;
-    let pauseTimeout;
 
     recognition.onresult = function(event) {
         const interimTranscript = event.results[event.results.length - 1][0].transcript;
 
         // Update the displayed text
-        currentText += interimTranscript;
+        currentText += interimTranscript + '<br>';
         output.innerHTML = currentText;
-
-        // Reset the pause timer
-        clearTimeout(pauseTimeout);
-        isPaused = false;
-        
-        // Set a timer to check for pauses
-        pauseTimeout = setTimeout(function() {
-            if (!isPaused) {
-                isPaused = true;
-                currentText += '<br>'; // Add a line break to indicate a pause
-                output.innerHTML = currentText;
-            }
-        }, 10000); // 10 seconds
     };
 
     recognition.onstart = function() {
@@ -41,7 +26,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     recognition.onend = function() {
         startRecording.textContent = 'Start Recording';
         stopRecording.disabled = true;
-        clearTimeout(pauseTimeout);
     };
 
     startRecording.addEventListener('click', function() {
